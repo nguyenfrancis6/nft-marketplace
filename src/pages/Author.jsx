@@ -4,12 +4,15 @@ import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const fetchAuthorData = async () => {
