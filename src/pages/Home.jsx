@@ -8,8 +8,23 @@ import TopSellers from "../components/home/TopSellers";
 
 const Home = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    // Store scroll position when the user scrolls
+    const handleScroll = () => {
+      sessionStorage.setItem('scrollPosition', window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    // Restore scroll position on component mount
+    const scrollPosition = sessionStorage.getItem('scrollPosition');
+    if (scrollPosition !== null) {
+      window.scrollTo(0, parseInt(scrollPosition));
+    }
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array to ensure effect runs only once
 
   return (
     <div id="wrapper">
