@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 const ExploreItems = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +9,7 @@ const ExploreItems = () => {
   const [link, setLink] = useState(
     "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
   );
-  const [filterValue, setFilterValue] = useState('')
+  const [filterValue, setFilterValue] = useState("");
 
   const handleLoadMore = () => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
@@ -34,22 +33,24 @@ const ExploreItems = () => {
   }, [link]);
 
   const handleFilterChange = (event) => {
-    setFilterValue(event.target.value)
-  }
+    setFilterValue(event.target.value);
+  };
 
   function changeLink() {
-    if (filterValue === ''){
-      setLink("https://us-central1-nft-cloud-functions.cloudfunctions.net/explore")
-    }
-
-    else {
-      setLink(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filterValue}`)
+    if (filterValue === "") {
+      setLink(
+        "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
+      );
+    } else {
+      setLink(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filterValue}`
+      );
     }
   }
 
   useEffect(() => {
     changeLink();
-  }, [filterValue])
+  }, [filterValue]);
 
   function convertTime(time) {
     let dateObj = new Date(time * 1000);
@@ -77,10 +78,18 @@ const ExploreItems = () => {
     <>
       <div>
         <select id="filter-items" defaultValue="" onChange={handleFilterChange}>
-          <option value="" onClick={() => changeLink()}>Default</option>
-          <option value="price_low_to_high" onClick={() => changeLink()}>Price, Low to High</option>
-          <option value="price_high_to_low" onClick={() => changeLink()}>Price, High to Low</option>
-          <option value="likes_high_to_low" onClick={() => changeLink()}>Most liked</option>
+          <option value="" onClick={() => changeLink()}>
+            Default
+          </option>
+          <option value="price_low_to_high" onClick={() => changeLink()}>
+            Price, Low to High
+          </option>
+          <option value="price_high_to_low" onClick={() => changeLink()}>
+            Price, High to Low
+          </option>
+          <option value="likes_high_to_low" onClick={() => changeLink()}>
+            Most liked
+          </option>
         </select>
       </div>
       {loading ? (
@@ -99,16 +108,27 @@ const ExploreItems = () => {
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
             style={{ display: "block", backgroundSize: "cover" }}
           >
-            <div className="nft__item" style={{ width:'100%' }}>
+            <div className="nft__item" style={{ width: "100%" }}>
               <div className="author_list_pp">
-                <Link
-                  to={`/author/${item.authorId}`}
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                >
-                  <img className="lazy" src={item.authorImage} alt="" />
-                  <i className="fa fa-check"></i>
-                </Link>
+                {item.authorId === 1 ? (
+                  <Link
+                    to={`/author/83937449`}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  >
+                    <img className="lazy" src={item.authorImage} alt="" />
+                    <i className="fa fa-check"></i>
+                  </Link>
+                ) : (
+                  <Link
+                    to={`/author/${item.authorId}`}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  >
+                    <img className="lazy" src={item.authorImage} alt="" />
+                    <i className="fa fa-check"></i>
+                  </Link>
+                )}
               </div>
               {item.expiryDate ? (
                 <div className="de_countdown">
